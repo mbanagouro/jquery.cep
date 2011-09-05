@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+    <title>jQuery CEP v1.0</title>
+
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js" ></script>
+    <script type="text/javascript" src="jquery.cep-1.0.min.js" ></script>
+    <script type="text/javascript">
+        jQuery(function () {
+			/*
+				Usage:
+				
+				$('selector').cep({ success: function (data) {  
+					alert(data.logradouro);
+					//other properties
+				} });
+				
+				Or
+				
+				$.cep('99999999', { success: function (data) {  
+					alert(data.logradouro);
+					//other properties
+				} });
+				
+			*/
+	
+			//Example usage
+            $('#search').click(function () {
+			
+                $('#cep').cep({
+                    load: function () {
+						$('#result').empty();
+						$('#loading').show();
+					},
+					complete: function () {
+						$('#loading').hide();
+					},
+					error: function (msg) {
+						$('#result').html(msg);
+					},
+					success: function (data) {
+                        var result = data.tipoLogradouro + ' ' + data.logradouro + '<br/>';
+                        result += data.bairro + '<br/>';
+                        result += data.cidade + ' / ' + data.estado + '<br/>';
+                        $('#result').html(result);
+                    }
+                });
+
+            });
+
+        });
+    </script>
+
+</head>
+<body>
+    
+    <input type="text" id="cep" name="cep" class="cep" value="" maxlength="8" />
+    <button type="button" id="search" >Search</button>
+
+    <br />
+
+	<div id="loading" style="display:none" >Wait...</div>
+	
+    <div id="result"></div>
+
+</body>
+</html>
